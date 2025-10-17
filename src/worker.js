@@ -29,6 +29,16 @@ export default {
       try {
         // 使用正确的数据库绑定名称
         const db = env.cfvue_database || env.cfvue_database_preview;
+        
+        // 确保表存在
+        await db.prepare(`
+          CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )
+        `).run();
+        
         const { results } = await db.prepare('SELECT * FROM items ORDER BY created_at DESC').all();
         return new Response(JSON.stringify(results), {
           headers: {
@@ -64,6 +74,15 @@ export default {
         
         // 使用正确的数据库绑定名称
         const db = env.cfvue_database || env.cfvue_database_preview;
+        
+        // 确保表存在
+        await db.prepare(`
+          CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )
+        `).run();
         const { success } = await db.prepare(
           'INSERT INTO items (name, created_at) VALUES (?, CURRENT_TIMESTAMP)'
         ).bind(data.name).run();
@@ -113,6 +132,15 @@ export default {
         
         // 使用正确的数据库绑定名称
         const db = env.cfvue_database || env.cfvue_database_preview;
+        
+        // 确保表存在
+        await db.prepare(`
+          CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )
+        `).run();
         const { meta } = await db.prepare(
           'UPDATE items SET name = ? WHERE id = ?'
         ).bind(data.name, id).run();
@@ -157,6 +185,15 @@ export default {
         
         // 使用正确的数据库绑定名称
         const db = env.cfvue_database || env.cfvue_database_preview;
+        
+        // 确保表存在
+        await db.prepare(`
+          CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          )
+        `).run();
         const { meta } = await db.prepare(
           'DELETE FROM items WHERE id = ?'
         ).bind(id).run();

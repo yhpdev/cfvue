@@ -147,13 +147,26 @@ const cancelEdit = () => {
 }
 
 // 组件挂载时获取数据
-onMounted(() => {
-  fetchItems()
-})
+onMounted(async () => {
+  // 首先初始化数据库
+  try {
+    const initResponse = await fetch('/api/init-db', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    await initResponse.json();
+    console.log('数据库初始化完成');
+  } catch (initError) {
+    console.warn('数据库初始化失败，但将继续尝试获取数据:', initError);
+  }
+  
+  // 然后获取数据
+  fetchItems();
+});
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
+  <!-- <h1>{{ msg }}</h1> -->
 
   <div class="card">
     <h2>Cloudflare D1 数据库示例</h2>
@@ -291,6 +304,7 @@ button:disabled {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  color: #000;
 }
 
 .items-table th {
