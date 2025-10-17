@@ -89,9 +89,10 @@ export default {
         
         if (success) {
           // 获取插入的行
-          const insertedItem = await db.prepare(
+          const { results } = await db.prepare(
             'SELECT * FROM items WHERE id = last_insert_rowid()'
-          ).get();
+          ).all();
+          const insertedItem = results[0];
           return new Response(JSON.stringify(insertedItem), {
             status: 201,
             headers: {
@@ -156,9 +157,10 @@ export default {
         }
         
         // 获取更新后的行
-        const updatedItem = await db.prepare(
+        const { results } = await db.prepare(
           'SELECT * FROM items WHERE id = ?'
-        ).bind(id).get();
+        ).bind(id).all();
+        const updatedItem = results[0];
         
         return new Response(JSON.stringify(updatedItem), {
           headers: {

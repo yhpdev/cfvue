@@ -147,20 +147,9 @@ const cancelEdit = () => {
 }
 
 // 组件挂载时获取数据
-onMounted(async () => {
-  // 首先初始化数据库
-  try {
-    const initResponse = await fetch('/api/init-db', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    });
-    await initResponse.json();
-    console.log('数据库初始化完成');
-  } catch (initError) {
-    console.warn('数据库初始化失败，但将继续尝试获取数据:', initError);
-  }
-  
-  // 然后获取数据
+onMounted(() => {
+  // 直接获取数据，不再每次加载页面都初始化数据库
+  // 数据库初始化应该只在必要时手动触发
   fetchItems();
 });
 </script>
