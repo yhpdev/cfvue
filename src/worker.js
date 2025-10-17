@@ -27,7 +27,9 @@ export default {
     // 获取所有项目
     if (pathname === '/api/items' && request.method === 'GET') {
       try {
-        const { results } = await env.DB.prepare('SELECT * FROM items ORDER BY created_at DESC').all();
+        // 使用正确的数据库绑定名称
+        const db = env.cfvue_database || env.cfvue_database_preview;
+        const { results } = await db.prepare('SELECT * FROM items ORDER BY created_at DESC').all();
         return new Response(JSON.stringify(results), {
           headers: {
             'Content-Type': 'application/json',
@@ -60,13 +62,15 @@ export default {
           });
         }
         
-        const { success, results } = await env.DB.prepare(
-          'INSERT INTO items (name, created_at) VALUES (?, CURRENT_TIMESTAMP) RETURNING *'
+        // 使用正确的数据库绑定名称
+        const db = env.cfvue_database || env.cfvue_database_preview;
+        const { success } = await db.prepare(
+          'INSERT INTO items (name, created_at) VALUES (?, CURRENT_TIMESTAMP)'
         ).bind(data.name).run();
         
         if (success) {
           // 获取插入的行
-          const insertedItem = await env.DB.prepare(
+          const insertedItem = await db.prepare(
             'SELECT * FROM items WHERE id = last_insert_rowid()'
           ).get();
           return new Response(JSON.stringify(insertedItem), {
@@ -107,7 +111,9 @@ export default {
           });
         }
         
-        const { success, meta } = await env.DB.prepare(
+        // 使用正确的数据库绑定名称
+        const db = env.cfvue_database || env.cfvue_database_preview;
+        const { meta } = await db.prepare(
           'UPDATE items SET name = ? WHERE id = ?'
         ).bind(data.name, id).run();
         
@@ -122,7 +128,7 @@ export default {
         }
         
         // 获取更新后的行
-        const updatedItem = await env.DB.prepare(
+        const updatedItem = await db.prepare(
           'SELECT * FROM items WHERE id = ?'
         ).bind(id).get();
         
@@ -149,7 +155,9 @@ export default {
       try {
         const id = parseInt(pathname.split('/').pop());
         
-        const { success, meta } = await env.DB.prepare(
+        // 使用正确的数据库绑定名称
+        const db = env.cfvue_database || env.cfvue_database_preview;
+        const { meta } = await db.prepare(
           'DELETE FROM items WHERE id = ?'
         ).bind(id).run();
         
@@ -184,8 +192,11 @@ export default {
     // 数据库初始化端点（仅用于开发）
     if (pathname === '/api/init-db' && request.method === 'POST') {
       try {
+        // 使用正确的数据库绑定名称
+        const db = env.cfvue_database || env.cfvue_database_preview;
+        
         // 创建表（如果不存在）
-        await env.DB.prepare(`
+        await db.prepare(`
           CREATE TABLE IF NOT EXISTS items (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
@@ -194,7 +205,7 @@ export default {
         `).run();
         
         // 插入一些示例数据
-        await env.DB.prepare(
+        await db.prepare(
           'INSERT OR IGNORE INTO items (name) VALUES (?), (?), (?)'
         ).bind('示例项目1', '示例项目2', '示例项目3').run();
         
