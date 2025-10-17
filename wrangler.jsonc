@@ -1,7 +1,28 @@
 {
-  "name": "cfvue",
-  "compatibility_date": "2025-10-17",
-  "assets": {
-    "directory": "./dist"
-  }
+	"name": "cfvue",
+	"compatibility_date": "2025-10-17",
+	"assets": {
+		"directory": "./dist"
+	},
+	"main": "./src/worker.js",
+	"d1_databases": [
+		// {
+		// 	"binding": "DB",
+		// 	"database_name": "cfvue-database",
+		// 	"database_id": "your-database-id",
+		// 	"preview_database_id": "your-preview-database-id"
+		// },
+		{
+			"binding": "cfvue_database",
+			"database_name": "cfvue-database",
+			"database_id": "b5155d93-8ee8-4451-961c-49a8166fbd6b",
+			"remote": true
+		},
+		{
+			"binding": "cfvue_database_preview",
+			"database_name": "cfvue-database-preview",
+			"database_id": "dfd3f37a-b606-4105-b4ab-231ab104d4eb",
+			"remote": true
+		}
+	]
 }
