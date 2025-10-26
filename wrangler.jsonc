@@ -5,6 +5,7 @@
 		"directory": "./dist"
 	},
 	"main": "./src/worker.js",
+	"preview_urls": false,
 	"d1_databases": [
 		// {
 		// 	"binding": "DB",
