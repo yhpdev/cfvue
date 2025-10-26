@@ -1,0 +1,11 @@
+<svg width="256" height="257" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <filter id="svg_1_blur">
+   <feGaussianBlur in="SourceGraphic" stdDeviation="0"/>
+  </filter>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <text fill="#A98E49" stroke-width="0" x="212.64594" y="180.5163" id="svg_1" font-size="24" font-family="Noto Sans JP" text-anchor="start" xml:space="preserve" stroke="#000" transform="rotate(-15 134.266 134.631) matrix(8.51612 0 0 8.34276 -1797.66 -1291.7)" font-weight="bold" filter="url(#svg_1_blur)" rx="34">To</text>
+ </g>
+</svg>
