@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.wrangler/state/v3/d1/miniflare-D1DatabaseObject/4478565d1bebcd0a0b0baf8470e8b62455b31e81981d9f652aa1a98c3dbe86e6.sqlite-wal
+.wrangler/tmp/bundle-VT3srz/middleware-insertion-facade.js
+.wrangler/
+public/vite.svg-back
